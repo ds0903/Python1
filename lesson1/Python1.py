@@ -9,4 +9,4 @@ for key, value in main.items():
     if "12" in value:
         print("stoy")
     else:
-        print("vse okk")
+        print("vse ok")
