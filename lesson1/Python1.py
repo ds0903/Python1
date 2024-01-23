@@ -3,4 +3,4 @@ for key, value in main.items():
     if "12" in value:
         print("stoy")
     else:
-        print("vse ok")
+        print("vse okk")
