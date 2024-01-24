@@ -17,3 +17,4 @@ jobs:
         run: python -m ruff .
       - name: Run static type cheker
         run: python -m mypy .
+        .
