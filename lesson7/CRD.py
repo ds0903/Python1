@@ -6,25 +6,29 @@ team: list[dict] = [
     {"name": "Mark", "age": 33, "number": 3},
     {"name": "Cavin", "age": 31, "number": 12},
 ]
-###############################################
+
 def player_update(players: list[dict]):
     fin_num=input('enter player number ')
     for player in players:
         if player['number'] == int(fin_num):
             new_number = input('Enter the new number for the player: ')
-            player['number'] = int(new_number)
-            print(f"Player {fin_num} updated with new number {new_number}")
+            new_name = input('Enter the new name for the player: ')
+            new_age = input('Enter the new age for the player: ')
+            player['name'] = (new_name)
+            player['age'] = (new_age)
+            player['number'] = (new_number)
+            print(f"Player {fin_num} updated with new number {new_number} name {new_name} and new age {new_age}")
             main()
     else:
         print(f"No player found with number {fin_num}")
-###############################################
+
 
 # Application source code
 def repr_players(players: list[dict]):
     for player in players:
         print(f"\t[Player {player['number']}]: {player['name']},{player['age']}")
 
-###############################################
+
 def player_add(name: str, age: int, number: int) -> dict:
     player: dict = {
         "name": name,
@@ -38,7 +42,7 @@ def player_add(name: str, age: int, number: int) -> dict:
         return player
     else:
         raise 'this player alredy in team!'
-###############################################
+
 
 def player_delete(number: int) -> None:
     for player in team:
