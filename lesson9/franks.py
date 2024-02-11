@@ -1,3 +1,4 @@
+
 currency_exchange ={
     "currency_USD":{"USD":1.14}, 
     "currency_UAH":{"UAH":42.99}, #Список курсів наших валют в CHF(Швейцарский франк)
@@ -18,28 +19,29 @@ class calc:
         if self.currency == "UAH":
             for key,value_U in currency_exchange.items():
                 if key == "currency_UAH":
-                    for key,value_UAH in value_U.items():
+                    for value_UAH in value_U.values():
                        return self.value / value_UAH
         if self.currency == "USD":
             for key,value_US in currency_exchange.items():
                 if key == "currency_USD":
-                    for key,value_USD in value_US.items():
+                    for value_USD in value_US.values():
                        return  self.value / value_USD
         if self.currency == "EUR":
             for key,value_EU in currency_exchange.items():
                 if key == "currency_EUR":
-                    for key,value_EUR in value_EU.items():
+                    for value_EUR in value_EU.values():
                        return  self.value / value_EUR
         if self.currency == "CHF":
             for key,value_CH in currency_exchange.items():
                 if key == "currency_CHF":
-                    for key,value_CHF in value_CH.items():
+                    for value_CHF in value_CH.values():
                        return self.value / value_CHF        
         else:   
-            print("ERROR!!!")             
+            raise TypeError("ERROR!!! not supported currency")             
 
 class Price(calc):
     def __init__(self, value: int, currency: str) -> None:
+      super().__init__(value, currency, None)
       self.value: int = value
       self.currency: str = currency
 
