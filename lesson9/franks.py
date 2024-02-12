@@ -25,7 +25,9 @@ class Price:
             for key2,value2 in currency_exchange_base1.items():
                 if other.currency == key2:
                     plus2 = other.value / value2 
-                    return f"Сума переведених в Франки валют {plus1 + plus2} ФРАНКІВ"
+                    p_1 = plus1 - plus2 
+                    p_2 = p_1 * 1.14 #USD
+                    return f"Сума переведених в Доларах США {p_2} "
 
 
     def __sub__(self,other) -> 'Price':
@@ -39,9 +41,11 @@ class Price:
             for key2,value2 in currency_exchange_base1.items():
                 if other.currency == key2:
                     minus2 = other.value / value2 
-                    return f"Різниця переведених в Франки валют {minus1 - minus2} ФРАНКІВ"
+                    m_1 = minus1 - minus2 #* 2 #USD
+                    m_2 = m_1 * 1.14 #USD
+                    return f"Різниця переведених в Доларах США {m_2} "
 
 flight = Price(2000, "USD")
 hotel = Price(1000, "UAH")
-oleg = flight+hotel
+oleg = flight-hotel
 print(oleg)
