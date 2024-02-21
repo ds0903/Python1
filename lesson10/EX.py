@@ -1,9 +1,8 @@
 import requests,json,time
 start_time = time.time()
 
-currency_exchange_base1 ={'CHF': '1'}
-exchange_CHF_to_USD ={}
 currency_exchange_base1 ={}
+exchange_CHF_to_USD ={}
 try:    #API connect
     API="JIJGS3BPJY3RYS4X"
     """Долари в Франки"""
@@ -25,7 +24,6 @@ try:    #API connect
             a.write("\n")
             w.write(json.dumps(log_info))
             # print("Файл успішно створений")
-
 
     """Гривні в Франки"""
     url_UAH = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=UAH&to_currency=CHF&apikey={API}"
@@ -67,15 +65,12 @@ try:    #API connect
             w.write(json.dumps(log_info))
             # print("Файл успішно створений")
 
-    
-    #
     """Франки в долари"""
     url_CHF = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=CHF&to_currency=USD&apikey={API}"
     responce = requests.get(url_CHF) 
     CHF_EX=responce.json()
     CHF_kurs=CHF_EX["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
     exchange_CHF_to_USD["CHF"] = CHF_kurs
-    #
 
     file_name = "log_CHF_to_USD.json"
     log_info = responce.json()
@@ -89,7 +84,6 @@ try:    #API connect
             a.write("\n")
             w.write(json.dumps(log_info))
             # print("Файл успішно створений")
-
 
 except KeyError:
     print("No conection, try use new API or VPN")
@@ -138,7 +132,6 @@ class Price:
             return f"Різниця {self.value - other.value}, В валюті {self.currency}"
         elif self.currency != other.currency:
             return shotakoe_minus(self,other)
-
 
 flight = Price(2000, "USD")
 hotel = Price(1000, "EUR")
