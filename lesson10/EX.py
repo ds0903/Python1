@@ -1,118 +1,74 @@
-import requests,json,time
+import requests
+import json
+import time
 start_time = time.time()
 
 currency_exchange_base1 ={}
-exchange_CHF_to_USD ={}
-try:    #API connect
-    API="JIJGS3BPJY3RYS4X"
-    """Долари в Франки"""
-    url_USD = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=CHF&apikey={API}"
-    responce = requests.get(url_USD) 
-    USD_EX=responce.json()
-    USD_kurs=USD_EX["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-    currency_exchange_base1["USD"] = USD_kurs
+def info(from_="CHF",to_="CHF"):
+    name_from=from_ #from 
+    name_to=to_   #to  
+    try:    #API connect
+        API="JIJGS3BPJY3RYS4X"
+        """Конвертація"""
+        url = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency={name_from}&to_currency={name_to}&apikey={API}"
+        responce = requests.get(url) 
+        EX=responce.json()
+        kurs=EX["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+        currency_exchange_base1[name_from] = kurs #курс обміну по порядку з валюти до валюти
 
-    file_name = "log_USD_to_CHF.json"
-    log_info = responce.json()
-    try:
-        with open(file_name, "a") as a:
-            a.write("\n")
-            a.write(json.dumps(log_info))
-            # print(log_info)
-    except FileNotFoundError:
-        with open(file_name, "w") as w:
-            a.write("\n")
-            w.write(json.dumps(log_info))
-            # print("Файл успішно створений")
-
-    """Гривні в Франки"""
-    url_UAH = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=UAH&to_currency=CHF&apikey={API}"
-    responce = requests.get(url_UAH) 
-    UAH_EX=responce.json()
-    UAH_kurs=UAH_EX["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-    currency_exchange_base1["UAH"] = UAH_kurs
-
-    file_name = "log_UAH_to_CHF.json"
-    log_info = responce.json()
-    try:
-        with open(file_name, "a") as a:
-            a.write("\n")
-            a.write(json.dumps(log_info))
-            # print(log_info)
-    except FileNotFoundError:
-        with open(file_name, "w") as w:
-            a.write("\n")
-            w.write(json.dumps(log_info))
-            # print("Файл успішно створений")
-
-    """Євро в Франки"""
-    url_EUR = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=EUR&to_currency=CHF&apikey={API}"
-    responce = requests.get(url_EUR) 
-    EUR_EX=responce.json()
-    EUR_kurs=EUR_EX["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-    currency_exchange_base1["EUR"] = EUR_kurs
-    
-    file_name = "log_EUR_to_CHF.json"
-    log_info = responce.json()
-    try:
-        with open(file_name, "a") as a:
-            a.write("\n")
-            a.write(json.dumps(log_info))
-            # print(log_info)
-    except FileNotFoundError:
-        with open(file_name, "w") as w:
-            a.write("\n")
-            w.write(json.dumps(log_info))
-            # print("Файл успішно створений")
-
-    """Франки в долари"""
-    url_CHF = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=CHF&to_currency=USD&apikey={API}"
-    responce = requests.get(url_CHF) 
-    CHF_EX=responce.json()
-    CHF_kurs=CHF_EX["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
-    exchange_CHF_to_USD["CHF"] = CHF_kurs
-
-    file_name = "log_CHF_to_USD.json"
-    log_info = responce.json()
-    try:
-        with open(file_name, "a") as a:
-            a.write("\n")
-            a.write(json.dumps(log_info))
-            # print(log_info)
-    except FileNotFoundError:
-        with open(file_name, "w") as w:
-            a.write("\n")
-            w.write(json.dumps(log_info))
-            # print("Файл успішно створений")
-
-except KeyError:
-    print("No conection, try use new API or VPN")
+        file_name = "loging.json"
+        log_info = responce.json()
+        try:
+            with open(file_name, "a") as a:
+                a.write("\n")
+                a.write(json.dumps(log_info))
+                # print(log_info)
+        except FileNotFoundError:
+            with open(file_name, "w") as w:
+                a.write("\n")
+                w.write(json.dumps(log_info))
+                # print("Файл успішно створений")
+    except KeyError:
+        print("No conection, try use new API or VPN")
+        
 
 def shotakoe_plus(self,other):
+    currency1=self.currency
+    currency2=other.currency
+    info(currency1) 
+    info(currency2)
+    info(to_="USD")
     plus1,plus2 = 0,0
     for key1,value1 in currency_exchange_base1.items():
-        if self.currency == key1:
-            plus1 =  self.value * float(value1)
+            if self.currency == key1:
+                plus1 =  self.value * float(value1)
     for key2,value2 in currency_exchange_base1.items():
-        if other.currency == key2:
-            plus2 = other.value * float(value2) 
-            p_1 = plus1 + plus2
-            for value_1 in exchange_CHF_to_USD.values():    
-                p_2 = p_1 * float(value_1) #CHF to USD
-            return f"Сума валют переведених в Доларах США {p_2} "
+            if other.currency == key2:
+                plus2 = other.value * float(value2) 
+                p_1 = plus1 + plus2
+    for key3,value3 in currency_exchange_base1.items():
+        if key3 == "USD":        
+            p_2 = p_1 * float(value3) #CHF to USD
+    return f"Різниця валют переведених в Доларах США {p_2} "
 
-def shotakoe_minus(self,other):        
+def shotakoe_minus(self,other):
+    currency1=self.currency
+    currency2=other.currency
+    info(currency1) 
+    info(currency2)
+    info(to_="USD")        
     minus1,minus2 = 0,0
-    for key1,value1 in currency_exchange_base1.items():
+    for key1,value_1 in currency_exchange_base1.items():
         if self.currency == key1:
-            minus1 =  self.value * float(value1)
-    for key2,value2 in currency_exchange_base1.items():
+            minus1 =  self.value * float(value_1)
+    for key2,value_2 in currency_exchange_base1.items():
         if other.currency == key2:
-            minus2 = other.value * float(value2) 
+            minus2 = other.value * float(value_2) 
             m_1 = minus1 - minus2 
-            for value_2 in exchange_CHF_to_USD.values():
-                m_2 = m_1 * float(value_2) #CHF to USD
-            return f"Різниця вал.т переведених в Доларах США {m_2} "
+    for key3,value_3 in currency_exchange_base1.items():
+        if key3 == "USD":        
+            m_2 = m_1 * float(value_3) #CHF to USD
+    return f"Різниця валют переведених в Доларах США {m_2} "
 
 class Price:
     def __init__(self, value: int, currency: str) -> None:
@@ -135,7 +91,7 @@ class Price:
 
 flight = Price(2000, "USD")
 hotel = Price(1000, "EUR")
-oleg = flight+hotel
+oleg = flight-hotel
 print(oleg)
 end_time = time.time()
 execution_time = end_time - start_time
