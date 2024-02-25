@@ -1,5 +1,6 @@
 from typing import Generator
 
+
 class Player:
     def __init__(self, first_name: str, last_name: str):
         self.first_name: str = first_name
@@ -35,7 +36,6 @@ def dedup(team: list[Player]) -> Generator[str, None, None]:
         if player.first_name not in seen_names:
             seen_names.add(player.first_name)
             yield player
-
 
 
 for player in dedup(team):
